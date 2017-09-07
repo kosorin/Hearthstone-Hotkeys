@@ -5,13 +5,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HearthstoneHotkeys
+namespace HearthstoneHotkeys.IO
 {
     public static class Keyboard
     {
         #region WinAPI
+
         [DllImport("User32.dll")]
         private static extern short GetAsyncKeyState(int key);
+
         #endregion
 
         public static bool CheckDown(Keys key)

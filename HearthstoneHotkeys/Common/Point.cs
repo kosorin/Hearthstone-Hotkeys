@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HearthstoneHotkeys
+namespace HearthstoneHotkeys.Common
 {
     public struct Point
     {
         public int X;
+
         public int Y;
 
         public Point(int x, int y)

@@ -9,6 +9,7 @@ namespace HearthstoneHotkeys
     public struct GamePosition
     {
         public double X;
+
         public double Y;
 
         public GamePosition(double x, double y)

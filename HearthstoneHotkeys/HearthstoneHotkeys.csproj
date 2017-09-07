@@ -63,20 +63,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Keyboard.cs" />
-    <Compile Include="Mouse.cs" />
-    <Compile Include="Emote.cs" />
-    <Compile Include="IAction.cs" />
+    <Compile Include="Actions\EnemyEmote.cs" />
+    <Compile Include="Actions\PlayerEmote.cs" />
+    <Compile Include="Common\Rectangle.cs" />
+    <Compile Include="IO\Input.cs" />
+    <Compile Include="IO\Keyboard.cs" />
+    <Compile Include="IO\Mouse.cs" />
+    <Compile Include="Actions\Emote.cs" />
+    <Compile Include="Actions\IAction.cs" />
     <Compile Include="Hotkey.cs" />
-    <Compile Include="Keys.cs" />
-    <Compile Include="MouseButton.cs" />
-    <Compile Include="Click.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="IO\Keys.cs" />
+    <Compile Include="IO\Window.cs" />
+    <Compile Include="IO\MouseButton.cs" />
+    <Compile Include="Actions\Click.cs" />
+    <Compile Include="Common\Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rect.cs" />
     <Compile Include="GamePosition.cs" />
-    <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -98,6 +101,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HearthstoneHotkeys
+namespace HearthstoneHotkeys.Actions
 {
     public interface IAction
     {
-        void Execute();
+        string Name { get; }
 
-        string GetDescription();
+        void Execute();
     }
 }

@@ -4,23 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HearthstoneHotkeys
+namespace HearthstoneHotkeys.Common
 {
-    public struct Rect
+    public struct Rectangle
     {
         public int Left;
+
         public int Top;
+
         public int Right;
+
         public int Bottom;
 
-        public int Width
-        {
-            get { return Right - Left; }
-        }
+        public int Width => Right - Left;
 
-        public int Height
-        {
-            get { return Bottom - Top; }
-        }
+        public int Height => Bottom - Top;
     }
 }

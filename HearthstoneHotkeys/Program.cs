@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HearthstoneHotkeys.Actions;
+using HearthstoneHotkeys.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -12,6 +14,19 @@ namespace HearthstoneHotkeys
     {
         static void Main(string[] args)
         {
+            var hotkeys = new List<Hotkey>
+            {
+                new Hotkey(Keys.None, Keys.F2, new PlayerEmote("Thanks", new GamePosition(-0.12, 0.63))),
+                new Hotkey(Keys.None, Keys.F3, new PlayerEmote("Well Played", new GamePosition(-0.12, 0.71))),
+                new Hotkey(Keys.None, Keys.F4, new PlayerEmote("Greetings", new GamePosition(-0.12, 0.8))),
+                new Hotkey(Keys.None, Keys.F6, new PlayerEmote("Sorry", new GamePosition(0.12, 0.63))),
+                new Hotkey(Keys.None, Keys.F7, new PlayerEmote("Oops", new GamePosition(0.12, 0.71))),
+                new Hotkey(Keys.None, Keys.F8, new PlayerEmote("Threaten", new GamePosition(0.12, 0.8))),
+                new Hotkey(Keys.None, Keys.F12,  new EnemyEmote("Squelch", new GamePosition(-0.12, 0.1))),
+                new Hotkey(Keys.ControlKey, Keys.Space, new Click("End Turn", new GamePosition(0.41, 0.45), MouseButton.Left)),
+            };
+
+
             Console.WriteLine();
             Console.WriteLine("  +------------------------------------+");
             Console.WriteLine("  |                                    |");
@@ -19,26 +34,12 @@ namespace HearthstoneHotkeys
             Console.WriteLine("  |                                    |");
             Console.WriteLine("  +------------------------------------+");
             Console.WriteLine();
+            foreach (var hotkey in hotkeys)
+            {
+                Console.WriteLine(hotkey);
+            }
+            Console.WriteLine();
 
-            Emote ThanksEmote = new Emote("Thanks", new GamePosition(-0.12, 0.63), Emote.PlayerPosition);
-            Emote WellPlayedEmote = new Emote("Well Played", new GamePosition(-0.12, 0.71), Emote.PlayerPosition);
-            Emote GreetingsEmote = new Emote("Greetings", new GamePosition(-0.12, 0.8), Emote.PlayerPosition);
-            Emote SorryEmote = new Emote("Sorry", new GamePosition(0.12, 0.63), Emote.PlayerPosition);
-            Emote OopsEmote = new Emote("Oops", new GamePosition(0.12, 0.71), Emote.PlayerPosition);
-            Emote ThreatenEmote = new Emote("Threaten", new GamePosition(0.12, 0.8), Emote.PlayerPosition);
-            Emote SquelchEmote = new Emote("Squelch", new GamePosition(-0.12, 0.1), Emote.EnemyPosition);
-
-            Click EndTurnClick = new Click("End Turn", new GamePosition(0.41, 0.45), MouseButton.Left, true);
-
-            List<Hotkey> hotkeys = new List<Hotkey>();
-            hotkeys.Add(new Hotkey(Keys.F2, Keys.None, ThanksEmote));
-            hotkeys.Add(new Hotkey(Keys.F3, Keys.None, WellPlayedEmote));
-            hotkeys.Add(new Hotkey(Keys.F4, Keys.None, GreetingsEmote));
-            hotkeys.Add(new Hotkey(Keys.F6, Keys.None, SorryEmote));
-            hotkeys.Add(new Hotkey(Keys.F7, Keys.None, OopsEmote));
-            hotkeys.Add(new Hotkey(Keys.F8, Keys.None, ThreatenEmote));
-            hotkeys.Add(new Hotkey(Keys.F12, Keys.None, SquelchEmote));
-            hotkeys.Add(new Hotkey(Keys.Space, Keys.ControlKey, EndTurnClick));
 
             bool setWindow = false;
             while (true)
@@ -47,18 +48,18 @@ namespace HearthstoneHotkeys
                 {
                     setWindow = false;
 
-                    foreach (Hotkey hotkey in hotkeys)
+                    foreach (var hotkey in hotkeys)
                     {
                         if (hotkey.CanExecute())
                         {
                             hotkey.Execute();
                         }
                     }
-                    Thread.Sleep(50);
+                    Thread.Sleep(Input.Delay);
                 }
                 else
                 {
-                    if (!Window.SetHearthstoneWindow() && !setWindow)
+                    if (!Window.Initialize() && !setWindow)
                     {
                         Console.WriteLine("Zapni hru!");
                     }
