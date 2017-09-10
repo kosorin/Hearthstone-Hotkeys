@@ -5,7 +5,9 @@ using HearthstoneHotkeys.Actions;
 using HearthstoneHotkeys.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +25,7 @@ namespace HearthstoneHotkeys
 
         public string Author => "David Kosorin";
 
-        public Version Version => new Version("1.0");
+        public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
         public MenuItem MenuItem => null;
 
