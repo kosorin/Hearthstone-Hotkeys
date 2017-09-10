@@ -66,6 +66,7 @@
     <Compile Include="Actions\EnemyEmote.cs" />
     <Compile Include="Actions\PlayerEmote.cs" />
     <Compile Include="Common\Rectangle.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="IO\Input.cs" />
     <Compile Include="IO\Keyboard.cs" />
     <Compile Include="IO\Mouse.cs" />
