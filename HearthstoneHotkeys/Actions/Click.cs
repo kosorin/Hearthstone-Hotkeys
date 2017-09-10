@@ -12,26 +12,26 @@ namespace HearthstoneHotkeys.Actions
     {
         public string Name { get; }
 
-        public GamePosition Position { get; }
+        public GamePoint Position { get; }
 
         public MouseButton Button { get; }
 
-        public Click(string name, GamePosition position, MouseButton button)
+        public Click(string name, GamePoint position, MouseButton button)
         {
             Name = name;
             Position = position;
             Button = button;
         }
 
-        public void Execute()
+        public async Task ExecuteAsync()
         {
             var oldPosition = Mouse.GetCursorPosition();
-            var position = Window.GamePositionToPoint(Position);
+            var position = Window.GamePositionToScreenPosition(Position);
 
             Mouse.SetCursorPosition(position);
             Mouse.Click(Button);
 
-            Thread.Sleep(Input.Delay);
+            await Task.Delay(Input.Delay);
             Mouse.SetCursorPosition(oldPosition);
         }
     }

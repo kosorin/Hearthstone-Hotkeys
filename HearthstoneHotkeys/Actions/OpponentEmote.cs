@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace HearthstoneHotkeys.Actions
 {
-    public class EnemyEmote : Emote
+    public class OpponentEmote : Emote
     {
-        public override GamePosition HeroPosition { get; } = new GamePosition(0, 0.18);
+        public override GamePoint HeroPosition { get; } = new GamePoint(0.5, 0.18);
 
-        public EnemyEmote(string name, GamePosition position) : base(name, position)
+        public OpponentEmote(string name, GamePoint position) : base(name, position)
         {
         }
     }

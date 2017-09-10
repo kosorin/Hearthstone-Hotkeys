@@ -10,6 +10,6 @@ namespace HearthstoneHotkeys.Actions
     {
         string Name { get; }
 
-        void Execute();
+        Task ExecuteAsync();
     }
 }

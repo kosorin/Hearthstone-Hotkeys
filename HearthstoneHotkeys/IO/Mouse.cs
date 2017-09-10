@@ -1,4 +1,4 @@
-﻿using HearthstoneHotkeys.Common;
+﻿using Hearthstone_Deck_Tracker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +17,10 @@ namespace HearthstoneHotkeys.IO
         private static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] Input[] pInputs, int cbSize);
 
         [DllImport("User32.dll")]
-        private static extern bool SetCursorPos(int x, int y);
+        private static extern bool GetCursorPos(out ScreenPoint point);
 
         [DllImport("User32.dll")]
-        private static extern bool GetCursorPos(out Point point);
+        private static extern bool SetCursorPos(int x, int y);
 
 #pragma warning disable 649
 
@@ -87,16 +87,16 @@ namespace HearthstoneHotkeys.IO
             }
         }
 
-        public static void SetCursorPosition(Point point)
+        public static ScreenPoint GetCursorPosition()
         {
-            SetCursorPos(point.X, point.Y);
-        }
-
-        public static Point GetCursorPosition()
-        {
-            var point = new Point();
+            var point = new ScreenPoint();
             GetCursorPos(out point);
             return point;
+        }
+
+        public static void SetCursorPosition(ScreenPoint point)
+        {
+            SetCursorPos(point.X, point.Y);
         }
     }
 }

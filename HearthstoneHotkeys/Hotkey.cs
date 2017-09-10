@@ -1,4 +1,5 @@
-﻿using HearthstoneHotkeys.Actions;
+﻿using Hearthstone_Deck_Tracker.Utility.Logging;
+using HearthstoneHotkeys.Actions;
 using HearthstoneHotkeys.IO;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,9 @@ namespace HearthstoneHotkeys
             Action = action ?? throw new ArgumentNullException(nameof(action));
         }
 
-        public void Execute()
+        public async Task ExecuteAsync()
         {
-            Action?.Execute();
+            await Action?.ExecuteAsync();
         }
 
         public bool CanExecute()
@@ -54,7 +55,7 @@ namespace HearthstoneHotkeys
                 : "";
             var keyText = Enum.GetName(typeof(Keys), Key).ToString();
 
-            return $"{keyModifierText + keyText,22} - {Action.Name}";
+            return $"{keyModifierText + keyText} - {Action.Name}";
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using HearthstoneHotkeys.Actions;
+﻿using Hearthstone_Deck_Tracker;
+using Hearthstone_Deck_Tracker.Utility.Logging;
+using HearthstoneHotkeys.Actions;
 using HearthstoneHotkeys.IO;
 using System;
 using System.Collections.Generic;
@@ -11,64 +13,75 @@ namespace HearthstoneHotkeys
 {
     public class Game
     {
-        public List<Hotkey> Hotkeys { get; } = new List<Hotkey>();
+        private readonly List<Hotkey> hotkeys = new List<Hotkey>
+        {
+            new Hotkey(Keys.None, Keys.F2, new PlayerEmote("Thanks", new GamePoint(0.38, 0.63))),
+            new Hotkey(Keys.None, Keys.F3, new PlayerEmote("Well Played", new GamePoint(0.38, 0.71))),
+            new Hotkey(Keys.None, Keys.F4, new PlayerEmote("Greetings", new GamePoint(0.38, 0.8))),
+            new Hotkey(Keys.None, Keys.F5, new PlayerEmote("Wow", new GamePoint(0.62, 0.63))),
+            new Hotkey(Keys.None, Keys.F6, new PlayerEmote("Oops", new GamePoint(0.62, 0.71))),
+            new Hotkey(Keys.None, Keys.F7, new PlayerEmote("Threaten", new GamePoint(0.62, 0.8))),
+            new Hotkey(Keys.None, Keys.F9, new OpponentEmote("Squelch", new GamePoint(0.38, 0.1))),
+            new Hotkey(Keys.ControlKey, Keys.Space, new Click("End Turn", new GamePoint(0.91, 0.45), MouseButton.Left)),
+        };
+
+        private Task task;
+        private CancellationTokenSource cancelSource;
 
         public Game()
         {
-            InitializeHotkeys();
-            PrintInfo();
+            LogInfo();
         }
 
-        private void InitializeHotkeys()
+        private void LogInfo()
         {
-            Hotkeys.Add(new Hotkey(Keys.None, Keys.F2, new PlayerEmote("Thanks", new GamePosition(-0.12, 0.63))));
-            Hotkeys.Add(new Hotkey(Keys.None, Keys.F3, new PlayerEmote("Well Played", new GamePosition(-0.12, 0.71))));
-            Hotkeys.Add(new Hotkey(Keys.None, Keys.F4, new PlayerEmote("Greetings", new GamePosition(-0.12, 0.8))));
-            Hotkeys.Add(new Hotkey(Keys.None, Keys.F6, new PlayerEmote("Sorry", new GamePosition(0.12, 0.63))));
-            Hotkeys.Add(new Hotkey(Keys.None, Keys.F7, new PlayerEmote("Oops", new GamePosition(0.12, 0.71))));
-            Hotkeys.Add(new Hotkey(Keys.None, Keys.F8, new PlayerEmote("Threaten", new GamePosition(0.12, 0.8))));
-
-            Hotkeys.Add(new Hotkey(Keys.None, Keys.F12, new EnemyEmote("Squelch", new GamePosition(-0.12, 0.1))));
-
-            Hotkeys.Add(new Hotkey(Keys.ControlKey, Keys.Space, new Click("End Turn", new GamePosition(0.41, 0.45), MouseButton.Left)));
-        }
-
-        private void PrintInfo()
-        {
-            Console.WriteLine();
-            Console.WriteLine("  +------------------------------------+");
-            Console.WriteLine("  |                                    |");
-            Console.WriteLine("  | Hearthstone Hotkeys v1.0 (C) Posix |");
-            Console.WriteLine("  |                                    |");
-            Console.WriteLine("  +------------------------------------+");
-            Console.WriteLine();
-            foreach (var hotkey in Hotkeys)
+            foreach (var hotkey in hotkeys)
             {
-                Console.WriteLine(hotkey);
+                Log.Info($"Hotkey> {hotkey}");
             }
-            Console.WriteLine();
         }
 
-        public void Run()
+        public void Start()
         {
-            while (true)
+            Log.Info($"Hotkey> start");
+
+            cancelSource = new CancellationTokenSource();
+            var unwrappedTask = Task.Factory.StartNew(RunAsync, cancelSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            task = unwrappedTask.Unwrap();
+        }
+
+        public void Stop()
+        {
+            Log.Info($"Hotkey> stop...");
+
+            cancelSource.Cancel();
+            task.Wait();
+
+            Log.Info($"Hotkey> stop ok");
+        }
+
+        private async Task RunAsync()
+        {
+            while (!cancelSource.IsCancellationRequested)
             {
-                if (Window.IsInForeground)
+                if (User32.IsHearthstoneInForeground())
                 {
-                    foreach (var hotkey in Hotkeys)
-                    {
-                        if (hotkey.CanExecute())
-                        {
-                            hotkey.Execute();
-                        }
-                    }
-                    Thread.Sleep(Input.Delay);
+                    await ExecuteHotkeysAsync();
+                    await Task.Delay(Input.Delay);
                 }
                 else
                 {
-                    Window.Initialize();
-                    Thread.Sleep(500);
+                    await Task.Delay(500);
                 }
+            }
+        }
+
+        private async Task ExecuteHotkeysAsync()
+        {
+            foreach (var hotkey in hotkeys.Where(x => x.CanExecute()))
+            {
+                Log.Info($"Hotkey> executing '{hotkey}'");
+                await hotkey.ExecuteAsync();
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using HearthstoneHotkeys.Common;
+﻿using Hearthstone_Deck_Tracker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,46 +12,36 @@ namespace HearthstoneHotkeys.IO
     {
         #region WinAPI
 
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr FindWindow(string className, string windowName);
-
-        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
-        static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string windowName);
-
         [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        static extern bool ClientToScreen(IntPtr window, out Point point);
+        static extern bool ClientToScreen(IntPtr window, out ScreenPoint point);
 
         [DllImport("user32.dll")]
         static extern bool GetClientRect(IntPtr window, out Rectangle rectangle);
 
         #endregion
 
-        public static IntPtr Current = IntPtr.Zero;
-
-        public static bool IsInForeground => Current == GetForegroundWindow();
-
-        public static bool Initialize()
+        public static ScreenPoint GamePositionToScreenPosition(GamePoint gamePosition)
         {
-            Current = FindWindowByCaption(IntPtr.Zero, "Hearthstone");
-            return Current != IntPtr.Zero;
-        }
-
-        public static Point GamePositionToPoint(GamePosition gamePosition)
-        {
-            var point = new Point();
+            var window = User32.GetHearthstoneWindow();
+            var point = new ScreenPoint();
             var rectangle = new Rectangle();
-            if (ClientToScreen(Window.Current, out point) && GetClientRect(Window.Current, out rectangle))
+            if (ClientToScreen(window, out point) && GetClientRect(window, out rectangle))
             {
-                var ratio = 1.332792208;
-                var width = rectangle.Height * ratio;
-
-                point.X += (int)(rectangle.Width / 2.0) + (int)(width * gamePosition.X);
-                point.Y += (int)Math.Round(rectangle.Height * gamePosition.Y);
+                point.X += GetX(rectangle, gamePosition.X);
+                point.Y += GetY(rectangle, gamePosition.Y);
             }
             return point;
+        }
+
+        private static int GetX(Rectangle rectangle, double gameX)
+        {
+            var ratio = (4.0 / 3.0) / ((double)rectangle.Width / rectangle.Height);
+            return (int)Helper.GetScaledXPos(gameX, rectangle.Width, ratio);
+        }
+
+        private static int GetY(Rectangle rectangle, double gameY)
+        {
+            return (int)(gameY * rectangle.Height);
         }
     }
 }

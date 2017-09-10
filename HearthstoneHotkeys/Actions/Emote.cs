@@ -12,37 +12,32 @@ namespace HearthstoneHotkeys.Actions
     {
         public string Name { get; }
 
-        public abstract GamePosition HeroPosition { get; }
+        public abstract GamePoint HeroPosition { get; }
 
-        public GamePosition Position { get; }
+        public GamePoint Position { get; }
 
-        public Emote(string name, GamePosition position)
+        public Emote(string name, GamePoint position)
         {
             Name = name;
             Position = position;
         }
 
-        public void Execute()
+        public async Task ExecuteAsync()
         {
             var oldPosition = Mouse.GetCursorPosition();
-            var heroPosition = Window.GamePositionToPoint(HeroPosition);
-            var position = Window.GamePositionToPoint(Position);
+            var heroPosition = Window.GamePositionToScreenPosition(HeroPosition);
+            var position = Window.GamePositionToScreenPosition(Position);
 
             Mouse.SetCursorPosition(heroPosition);
             Mouse.Click(MouseButton.Right);
 
-            Thread.Sleep(Input.Delay);
+            await Task.Delay(Input.Delay);
 
             Mouse.SetCursorPosition(position);
             Mouse.Click(MouseButton.Left);
 
-            Thread.Sleep(Input.Delay);
+            await Task.Delay(Input.Delay);
             Mouse.SetCursorPosition(oldPosition);
-        }
-
-        public string GetName()
-        {
-            return Name;
         }
     }
 }

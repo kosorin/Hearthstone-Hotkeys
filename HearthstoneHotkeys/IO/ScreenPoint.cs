@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HearthstoneHotkeys
+namespace HearthstoneHotkeys.IO
 {
-    public struct GamePosition
+    public struct ScreenPoint
     {
-        public double X;
+        public int X;
 
-        public double Y;
+        public int Y;
 
-        public GamePosition(double x, double y)
+        public ScreenPoint(int x, int y)
         {
             X = x;
             Y = y;
