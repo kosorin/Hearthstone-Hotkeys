@@ -22,7 +22,7 @@ namespace HearthstoneHotkeys
             new Hotkey(Keys.None, Keys.F6, new PlayerEmote("Oops", new GamePoint(0.62, 0.71))),
             new Hotkey(Keys.None, Keys.F7, new PlayerEmote("Threaten", new GamePoint(0.62, 0.8))),
             new Hotkey(Keys.None, Keys.F9, new OpponentEmote("Squelch", new GamePoint(0.38, 0.1))),
-            new Hotkey(Keys.ControlKey, Keys.Space, new Click("End Turn", new GamePoint(0.91, 0.45), MouseButton.Left)),
+            new Hotkey(Keys.ControlKey, Keys.Space, new Click("End Turn", new GamePoint(0.91, 0.45))),
         };
 
         private Task task;

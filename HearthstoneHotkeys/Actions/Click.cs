@@ -16,7 +16,7 @@ namespace HearthstoneHotkeys.Actions
 
         public MouseButton Button { get; }
 
-        public Click(string name, GamePoint position, MouseButton button)
+        public Click(string name, GamePoint position, MouseButton button = MouseButton.Left)
         {
             Name = name;
             Position = position;
