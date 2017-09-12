@@ -1,10 +1,10 @@
 ﻿namespace HearthstoneHotkeys.Actions
 {
-    public class PlayerEmote : Emote
+    public class PlayerEmoteAction : EmoteAction
     {
         public override GamePoint HeroPosition { get; } = new GamePoint(0.5, 0.77);
 
-        public PlayerEmote(string name, GamePoint position) : base(name, position)
+        public PlayerEmoteAction(string name, GamePoint position) : base(name, position)
         {
         }
     }

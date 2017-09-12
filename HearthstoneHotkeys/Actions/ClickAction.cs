@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace HearthstoneHotkeys.Actions
 {
-    public class Click : IAction
+    public class ClickAction : IAction
     {
         public string Name { get; }
 
@@ -11,7 +11,7 @@ namespace HearthstoneHotkeys.Actions
 
         public MouseButton Button { get; }
 
-        public Click(string name, GamePoint position, MouseButton button = MouseButton.Left)
+        public ClickAction(string name, GamePoint position, MouseButton button = MouseButton.Left)
         {
             Name = name;
             Position = position;

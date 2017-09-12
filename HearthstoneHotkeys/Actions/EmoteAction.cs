@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace HearthstoneHotkeys.Actions
 {
-    public abstract class Emote : IAction
+    public abstract class EmoteAction : IAction
     {
         public string Name { get; }
 
@@ -11,7 +11,7 @@ namespace HearthstoneHotkeys.Actions
 
         public GamePoint Position { get; }
 
-        public Emote(string name, GamePoint position)
+        public EmoteAction(string name, GamePoint position)
         {
             Name = name;
             Position = position;
