@@ -1,16 +1,7 @@
-﻿using Hearthstone_Deck_Tracker;
-using Hearthstone_Deck_Tracker.API;
+﻿using Hearthstone_Deck_Tracker.API;
 using Hearthstone_Deck_Tracker.Plugins;
-using HearthstoneHotkeys.Actions;
-using HearthstoneHotkeys.IO;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace HearthstoneHotkeys
