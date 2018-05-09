@@ -1,4 +1,4 @@
-﻿namespace HearthstoneHotkeys
+﻿namespace HearthstoneHotkeys.IO
 {
     public struct GamePoint
     {

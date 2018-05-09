@@ -1,4 +1,6 @@
-﻿namespace HearthstoneHotkeys.Actions
+﻿using HearthstoneHotkeys.IO;
+
+namespace HearthstoneHotkeys.Actions
 {
     public class OpponentEmoteAction : EmoteAction
     {

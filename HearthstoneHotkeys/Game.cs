@@ -29,7 +29,10 @@ namespace HearthstoneHotkeys
 
         public Game()
         {
-            LogInfo();
+            foreach (var hotkey in hotkeys)
+            {
+                Log.Info($"Hotkey> {hotkey}");
+            }
         }
 
         public void Start()
@@ -49,14 +52,6 @@ namespace HearthstoneHotkeys
             task.Wait();
 
             Log.Info($"Hotkey> stop ok");
-        }
-
-        private void LogInfo()
-        {
-            foreach (var hotkey in hotkeys)
-            {
-                Log.Info($"Hotkey> {hotkey}");
-            }
         }
 
         private async Task RunAsync()
