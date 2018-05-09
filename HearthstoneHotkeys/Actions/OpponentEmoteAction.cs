@@ -1,10 +1,8 @@
-﻿using HearthstoneHotkeys.IO;
-
-namespace HearthstoneHotkeys.Actions
+﻿namespace HearthstoneHotkeys.Actions
 {
     public class OpponentEmoteAction : EmoteAction
     {
-        public OpponentEmoteAction(string name, GamePoint position) : base(name, position)
+        public OpponentEmoteAction(string name, GamePoint position) : base("Opponent > " + name, position)
         {
         }
 

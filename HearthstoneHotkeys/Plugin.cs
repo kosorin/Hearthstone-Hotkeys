@@ -1,7 +1,9 @@
 ﻿using Hearthstone_Deck_Tracker.API;
 using Hearthstone_Deck_Tracker.Plugins;
+using Hearthstone_Deck_Tracker.Utility.HotKeys;
 using System;
 using System.Reflection;
+using System.Text;
 using System.Windows.Controls;
 
 namespace HearthstoneHotkeys
@@ -10,11 +12,16 @@ namespace HearthstoneHotkeys
     {
         private Game game;
 
+        public Plugin()
+        {
+            game = new Game();
+        }
+
         public string Name => "Hotkeys";
 
-        public string Description => "Hearthstone hotkeys";
+        public string Description => GetDescription();
 
-        public string ButtonText => "Settings";
+        public string ButtonText => null;
 
         public string Author => "David Kosorin";
 
@@ -28,35 +35,42 @@ namespace HearthstoneHotkeys
 
         public void OnLoad()
         {
-            Start();
-        }
-
-        public void OnUnload()
-        {
-            Stop();
-        }
-
-        public void OnUpdate()
-        {
-        }
-
-        private void Start()
-        {
-            Stop();
-
-            game = new Game();
+            game.OnLoad();
 
             GameEvents.OnGameStart.Add(game.Start);
             GameEvents.OnGameEnd.Add(game.Stop);
         }
 
-        private void Stop()
+        public void OnUnload()
         {
-            if (game != null)
+            game.OnUnload();
+        }
+
+        public void OnUpdate()
+        {
+            game.OnUpdate();
+        }
+
+        private string GetDescription()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Hearthstone hotkeys.");
+            sb.AppendLine();
+
+            foreach (var item in game.Actions)
             {
-                game.Stop();
-                game = null;
+                var hotKey = item.Key;
+                var action = item.Value;
+
+                if (hotKey.Mod != ModifierKeys.None)
+                {
+                    sb.AppendFormat("{0} + ", hotKey.Mod.ToString().Replace(", ", " + "));
+                }
+                sb.AppendLine($"{hotKey.Key} = {action.Name}");
             }
+
+            return sb.ToString();
         }
     }
 }

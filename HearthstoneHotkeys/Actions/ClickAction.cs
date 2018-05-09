@@ -1,32 +1,30 @@
 ﻿using HearthstoneHotkeys.IO;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace HearthstoneHotkeys.Actions
 {
-    public class ClickAction : IAction
+    public class ClickAction : ActionBase
     {
-        public ClickAction(string name, GamePoint position, MouseButton button = MouseButton.Left)
+        public ClickAction(string name, GamePoint position, MouseButtons button = MouseButtons.Left) : base("Click > " + name)
         {
-            Name = name;
             Position = position;
             Button = button;
         }
 
-        public string Name { get; }
-
         public GamePoint Position { get; }
 
-        public MouseButton Button { get; }
+        public MouseButtons Button { get; }
 
-        public async Task ExecuteAsync()
+        public override void Execute()
         {
             var oldPosition = Mouse.GetCursorPosition();
-            var position = Window.GamePositionToScreenPosition(Position);
 
-            Mouse.SetCursorPosition(position);
-            Mouse.Click(Button);
+            var position = Window.TransformToScreenPosition(Position);
 
-            await Task.Delay(Input.Delay);
+            Mouse.Click(Button, position);
+
+            Thread.Sleep(Input.Delay);
             Mouse.SetCursorPosition(oldPosition);
         }
     }

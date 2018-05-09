@@ -1,37 +1,33 @@
 ﻿using HearthstoneHotkeys.IO;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace HearthstoneHotkeys.Actions
 {
-    public abstract class EmoteAction : IAction
+    public abstract class EmoteAction : ActionBase
     {
-        protected EmoteAction(string name, GamePoint position)
+        protected EmoteAction(string name, GamePoint position) : base("Emote > " + name)
         {
-            Name = name;
             Position = position;
         }
-
-        public string Name { get; }
 
         public abstract GamePoint HeroPosition { get; }
 
         public GamePoint Position { get; }
 
-        public async Task ExecuteAsync()
+        public override void Execute()
         {
             var oldPosition = Mouse.GetCursorPosition();
-            var heroPosition = Window.GamePositionToScreenPosition(HeroPosition);
-            var position = Window.GamePositionToScreenPosition(Position);
 
-            Mouse.SetCursorPosition(heroPosition);
-            Mouse.Click(MouseButton.Right);
+            var heroPosition = Window.TransformToScreenPosition(HeroPosition);
+            var position = Window.TransformToScreenPosition(Position);
 
-            await Task.Delay(Input.Delay);
+            Mouse.Click(MouseButtons.Right, heroPosition);
 
-            Mouse.SetCursorPosition(position);
-            Mouse.Click(MouseButton.Left);
+            Thread.Sleep(Input.Delay);
+            Mouse.Click(MouseButtons.Left, position);
 
-            await Task.Delay(Input.Delay);
+            Thread.Sleep(Input.Delay);
             Mouse.SetCursorPosition(oldPosition);
         }
     }

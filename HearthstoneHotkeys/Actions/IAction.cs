@@ -1,11 +1,9 @@
-﻿using System.Threading.Tasks;
-
-namespace HearthstoneHotkeys.Actions
+﻿namespace HearthstoneHotkeys.Actions
 {
     public interface IAction
     {
         string Name { get; }
 
-        Task ExecuteAsync();
+        void Execute();
     }
 }
