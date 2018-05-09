@@ -5,18 +5,18 @@ namespace HearthstoneHotkeys.Actions
 {
     public class ClickAction : IAction
     {
-        public string Name { get; }
-
-        public GamePoint Position { get; }
-
-        public MouseButton Button { get; }
-
         public ClickAction(string name, GamePoint position, MouseButton button = MouseButton.Left)
         {
             Name = name;
             Position = position;
             Button = button;
         }
+
+        public string Name { get; }
+
+        public GamePoint Position { get; }
+
+        public MouseButton Button { get; }
 
         public async Task ExecuteAsync()
         {

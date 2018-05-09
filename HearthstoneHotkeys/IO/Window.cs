@@ -6,16 +6,6 @@ namespace HearthstoneHotkeys.IO
 {
     public static class Window
     {
-        #region WinAPI
-
-        [DllImport("user32.dll")]
-        static extern bool ClientToScreen(IntPtr window, out ScreenPoint point);
-
-        [DllImport("user32.dll")]
-        static extern bool GetClientRect(IntPtr window, out Rectangle rectangle);
-
-        #endregion
-
         public static ScreenPoint GamePositionToScreenPosition(GamePoint gamePosition)
         {
             var window = User32.GetHearthstoneWindow();
@@ -28,6 +18,12 @@ namespace HearthstoneHotkeys.IO
             }
             return point;
         }
+
+        [DllImport("user32.dll")]
+        private static extern bool ClientToScreen(IntPtr window, out ScreenPoint point);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetClientRect(IntPtr window, out Rectangle rectangle);
 
         private static int GetX(Rectangle rectangle, double gameX)
         {

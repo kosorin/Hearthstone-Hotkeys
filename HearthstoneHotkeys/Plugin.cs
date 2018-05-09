@@ -8,6 +8,8 @@ namespace HearthstoneHotkeys
 {
     public class Plugin : IPlugin
     {
+        private Game game;
+
         public string Name => "Hotkeys";
 
         public string Description => "Hearthstone hotkeys";
@@ -16,12 +18,27 @@ namespace HearthstoneHotkeys
 
         public string Author => "David Kosorin";
 
-        public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
-
         public MenuItem MenuItem => null;
 
+        public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
-        private Game game;
+        public void OnButtonPress()
+        {
+        }
+
+        public void OnLoad()
+        {
+            Start();
+        }
+
+        public void OnUnload()
+        {
+            Stop();
+        }
+
+        public void OnUpdate()
+        {
+        }
 
         private void Start()
         {
@@ -40,25 +57,6 @@ namespace HearthstoneHotkeys
                 game.Stop();
                 game = null;
             }
-        }
-
-
-        public void OnButtonPress()
-        {
-        }
-
-        public void OnLoad()
-        {
-            Start();
-        }
-
-        public void OnUnload()
-        {
-            Stop();
-        }
-
-        public void OnUpdate()
-        {
         }
     }
 }

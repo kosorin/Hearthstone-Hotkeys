@@ -5,8 +5,6 @@ namespace HearthstoneHotkeys.IO
 {
     public static class Mouse
     {
-        #region WinAPI
-
         [DllImport("user32.dll")]
         private static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] Input[] pInputs, int cbSize);
 
@@ -16,7 +14,6 @@ namespace HearthstoneHotkeys.IO
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int x, int y);
 
-#pragma warning disable 649
 
         private struct Input
         {
@@ -41,9 +38,6 @@ namespace HearthstoneHotkeys.IO
             public IntPtr ExtraInfo;
         }
 
-#pragma warning restore 649
-
-        #endregion
 
         public static void Click(MouseButton button)
         {

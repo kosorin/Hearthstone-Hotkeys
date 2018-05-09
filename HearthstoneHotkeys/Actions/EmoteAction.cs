@@ -5,17 +5,17 @@ namespace HearthstoneHotkeys.Actions
 {
     public abstract class EmoteAction : IAction
     {
+        protected EmoteAction(string name, GamePoint position)
+        {
+            Name = name;
+            Position = position;
+        }
+
         public string Name { get; }
 
         public abstract GamePoint HeroPosition { get; }
 
         public GamePoint Position { get; }
-
-        public EmoteAction(string name, GamePoint position)
-        {
-            Name = name;
-            Position = position;
-        }
 
         public async Task ExecuteAsync()
         {

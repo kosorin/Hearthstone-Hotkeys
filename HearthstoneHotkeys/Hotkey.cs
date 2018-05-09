@@ -7,12 +7,6 @@ namespace HearthstoneHotkeys
 {
     public class Hotkey
     {
-        public Keys KeyModifier { get; set; }
-
-        public Keys Key { get; set; }
-
-        public IAction Action { get; set; }
-
         public Hotkey(Keys keyModifier, Keys key, IAction action)
         {
             if (keyModifier != Keys.None &&
@@ -27,6 +21,12 @@ namespace HearthstoneHotkeys
             Key = key;
             Action = action ?? throw new ArgumentNullException(nameof(action));
         }
+
+        public Keys KeyModifier { get; set; }
+
+        public Keys Key { get; set; }
+
+        public IAction Action { get; set; }
 
         public async Task ExecuteAsync()
         {
@@ -46,9 +46,9 @@ namespace HearthstoneHotkeys
         public override string ToString()
         {
             var keyModifierText = (KeyModifier != Keys.None)
-                ? Enum.GetName(typeof(Keys), KeyModifier).ToString() + " + "
+                ? Enum.GetName(typeof(Keys), KeyModifier) + " + "
                 : "";
-            var keyText = Enum.GetName(typeof(Keys), Key).ToString();
+            var keyText = Enum.GetName(typeof(Keys), Key);
 
             return $"{keyModifierText + keyText} - {Action.Name}";
         }

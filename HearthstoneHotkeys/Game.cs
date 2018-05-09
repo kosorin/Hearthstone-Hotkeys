@@ -11,6 +11,10 @@ namespace HearthstoneHotkeys
 {
     public class Game
     {
+        private Task task;
+
+        private CancellationTokenSource cancellationTokenSource;
+
         private readonly List<Hotkey> hotkeys = new List<Hotkey>
         {
             new Hotkey(Keys.None, Keys.F2, new PlayerEmoteAction("Thanks", new GamePoint(0.38, 0.63))),
@@ -23,12 +27,28 @@ namespace HearthstoneHotkeys
             new Hotkey(Keys.ControlKey, Keys.Space, new ClickAction("End Turn", new GamePoint(0.91, 0.45))),
         };
 
-        private Task task;
-        private CancellationTokenSource cancelSource;
-
         public Game()
         {
             LogInfo();
+        }
+
+        public void Start()
+        {
+            Log.Info($"Hotkey> start");
+
+            cancellationTokenSource = new CancellationTokenSource();
+            var unwrappedTask = Task.Factory.StartNew(RunAsync, cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            task = unwrappedTask.Unwrap();
+        }
+
+        public void Stop()
+        {
+            Log.Info($"Hotkey> stop...");
+
+            cancellationTokenSource.Cancel();
+            task.Wait();
+
+            Log.Info($"Hotkey> stop ok");
         }
 
         private void LogInfo()
@@ -39,28 +59,9 @@ namespace HearthstoneHotkeys
             }
         }
 
-        public void Start()
-        {
-            Log.Info($"Hotkey> start");
-
-            cancelSource = new CancellationTokenSource();
-            var unwrappedTask = Task.Factory.StartNew(RunAsync, cancelSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-            task = unwrappedTask.Unwrap();
-        }
-
-        public void Stop()
-        {
-            Log.Info($"Hotkey> stop...");
-
-            cancelSource.Cancel();
-            task.Wait();
-
-            Log.Info($"Hotkey> stop ok");
-        }
-
         private async Task RunAsync()
         {
-            while (!cancelSource.IsCancellationRequested)
+            while (!cancellationTokenSource.IsCancellationRequested)
             {
                 if (User32.IsHearthstoneInForeground())
                 {
