@@ -75,7 +75,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HearthstoneDeckTracker">
-      <HintPath>C:\Users\David\AppData\Local\HearthstoneDeckTracker\app-1.5.10\HearthstoneDeckTracker.exe</HintPath>
+      <HintPath>C:\Users\David\AppData\Local\HearthstoneDeckTracker\app-1.6.5\HearthstoneDeckTracker.exe</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
