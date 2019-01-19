@@ -1,9 +1,9 @@
-﻿using Hearthstone_Deck_Tracker.Utility.HotKeys;
+﻿using Hearthstone_Deck_Tracker;
+using Hearthstone_Deck_Tracker.Utility.HotKeys;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using HearthstoneHotkeys.Actions;
-using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace HearthstoneHotkeys
@@ -24,6 +24,8 @@ namespace HearthstoneHotkeys
             [new HotKey(ModifierKeys.None, Keys.F9)] = new OpponentEmoteAction("Squelch", new GamePoint(0.38, 0.1)),
             [new HotKey(ModifierKeys.Control, Keys.Space)] = new ClickAction("End Turn", new GamePoint(0.91, 0.45)),
         };
+
+        private static bool IsInForeground => User32.IsHearthstoneInForeground() && Helper.GameWindowState != WindowState.Minimized;
 
         public void OnLoad()
         {
@@ -66,6 +68,11 @@ namespace HearthstoneHotkeys
 
         private void ActionHandler(IAction action)
         {
+            if (!IsInForeground)
+            {
+                return;
+            }
+
             if (isRunning && !isExecuting)
             {
                 isExecuting = true;
